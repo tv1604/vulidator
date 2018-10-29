@@ -1,0 +1,74 @@
+{
+  "name": "vulidator",
+  "version": "0.1.0",
+  "description": "A form-based validate input for vuejs",
+  "main": "dist/vulidator.common.js",
+  "module": "dist/vulidator.esm.js",
+  "unpkg": "dist/vulidator.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tv1604/vulidator.git"
+  },
+  "author": "tv1604 <tuevo.up@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@vue/test-utils": "^1.0.0-beta.25",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.4",
+    "babel-preset-flow": "^6.23.0",
+    "jest": "^23.6.0",
+    "regenerator-runtime": "^0.12.1",
+    "rollup": "^0.66.6",
+    "rollup-plugin-buble": "^0.19.4",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-flow-no-whitespace": "^1.0.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-replace": "^2.1.0",
+    "uglify-js": "^3.4.9",
+    "vue": "^2.5.17",
+    "vue-jest": "^3.0.0",
+    "vue-loader": "^15.4.2",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "scripts": {
+    "test": "jest",
+    "cover": "jest --coverage",
+    "build": "node build/build.js"
+  },
+  "jest": {
+    "testMatch": [
+      "**/tests/**/*.spec.js"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.*.js",
+      "!src/install.js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.vue$": "vue-jest"
+    },
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
+  },
+  "keywords": [
+    "vue",
+    "vue-validate",
+    "validator"
+  ],
+  "bugs": {
+    "url": "https://github.com/tv1604/vulidator/issues"
+  },
+  "homepage": "https://vulidator.github.com/"
+}
