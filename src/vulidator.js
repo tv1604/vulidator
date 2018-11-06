@@ -1,7 +1,6 @@
 import ErrorBag from './errorBag'
 import Error from './error'
 import Scope from './scope'
-import forIn from 'lodash/forIn'
 
 // @flow
 
@@ -36,8 +35,9 @@ export default class Validator {
 
     if (isScopeFound && !Object.keys(this.scopes).length) {
       // loop forms definition
-      forIn(this.form, (form, name) => {
+      Object.keys(this.form).forEach(name => {
         // discovery by query
+        const form = this.form[name]
         for (const scopeElement of scopeElms) {
           if (scopeElement.dataset.vulidateModel === name) {
             this.scopes[name] = new Scope(form, scopeElement, this.vnode.$data[name])

@@ -1,6 +1,3 @@
-import filter from 'lodash/filter'
-import map from 'lodash/map'
-import find from 'lodash/findIndex'
 import Error from './error'
 
 // @flow
@@ -15,39 +12,39 @@ export default class ErrorBag {
   }
 
   getErrors(scope: ?String, field: ?String): Array {
-    const errors = scope ? filter(this.errors, e => e.scope === scope) : this.errors
+    const errors = scope ? this.errors.filter(e => e.scope === scope) : this.errors
 
-    return field ? filter(errors, e => e.field === field) : errors
+    return field ? errors.filter(e => e.field === field) : errors
   }
 
   getMessages(scope: ?String): Array {
-    let errors = Object.assign({}, this.errors)
+    let errors = this.errors.slice(0)
 
     if (scope) {
-      errors = filter(errors, e => e.scope === scope)
+      errors = errors.filter(e => e.scope === scope)
     }
 
-    return map(errors, e => e.message)
+    return errors.map(e => e.message)
   }
 
   clear(scope: ?String) {
-    const errors = Object.assign({}, this.errors)
+    const errors = this.errors.slice(0)
 
-    this.errors = scope ? filter(errors, e => e.scope !== scope) : []
+    this.errors = scope ? errors.filter(e => e.scope !== scope) : []
   }
 
   has(field: String, scope: ?String): Boolean {
     let errors = this.errors.slice(0)
 
     if (scope) {
-      errors = filter(errors, e => e.scope === scope)
+      errors = errors.filter(e => e.scope === scope)
     }
 
-    return find(errors, e => e.field === field) !== -1
+    return errors.filter(e => e.field === field).length
   }
 
   replace(scope: String, error: Error | Array<Error>) {
-    const errorFiltered = filter(this.errors, e => e.scope !== scope)
+    const errorFiltered = this.errors.filter(e => e.scope !== scope)
     this.clear()
     this.append(errorFiltered)
     this.append(error)
