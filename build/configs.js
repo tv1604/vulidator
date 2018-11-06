@@ -1,5 +1,5 @@
 const path = require('path')
-const buble = require('rollup-plugin-buble')
+const babel = require('rollup-plugin-babel')
 const flow = require('rollup-plugin-flow-no-whitespace')
 const cjs = require('rollup-plugin-commonjs')
 const node = require('rollup-plugin-node-resolve')
@@ -14,21 +14,21 @@ const resolve = _path => path.resolve(__dirname, '../', _path)
 
 module.exports = [
   {
-    file: resolve('dist/vue-router.js'),
+    file: resolve('dist/vulidator.js'),
     format: 'umd',
     env: 'development'
   },
   {
-    file: resolve('dist/vue-router.min.js'),
+    file: resolve('dist/vulidator.min.js'),
     format: 'umd',
     env: 'production'
   },
   {
-    file: resolve('dist/vue-router.common.js'),
+    file: resolve('dist/vulidator.common.js'),
     format: 'cjs'
   },
   {
-    file: resolve('dist/vue-router.esm.js'),
+    file: resolve('dist/vulidator.esm.js'),
     format: 'es'
   }
 ].map(genConfig)
@@ -44,14 +44,15 @@ function genConfig (opts) {
         replace({
           __VERSION__: version
         }),
-        buble()
+        babel(),
       ]
     },
     output: {
       file: opts.file,
       format: opts.format,
       banner,
-      name: 'VueRouter'
+      name: 'vulidator',
+      exports: 'named',
     }
   }
 

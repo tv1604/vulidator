@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import VulidateError from '../components/vulidate-error'
 
 export default {
@@ -28,18 +27,18 @@ export default {
         wrapElm.removeChild(wrapElm.firstChild)
       }
 
-      if (errors.length && binding.value) {
-        errors.forEach(error => {
-          const comp = new Vue({
-            extends: VulidateError,
-            propsData: {
-              error,
-            },
-          })
-          comp.$mount()
-          wrapElm.appendChild(comp.$el)
-        })
-      }
+      // if (errors.length && binding.value) {
+      //   errors.forEach(error => {
+      //     const comp = new Vue({
+      //       extends: VulidateError,
+      //       propsData: {
+      //         error,
+      //       },
+      //     })
+      //     comp.$mount()
+      //     wrapElm.appendChild(comp.$el)
+      //   })
+      // }
     }
   },
 }

@@ -2,13 +2,8 @@ import ErrorBag from './errorBag'
 import Error from './error'
 import Scope from './scope'
 import forIn from 'lodash/forIn'
-import { VNode } from 'vue'
 
 // @flow
-const handler = Symbol()
-const discoveryScope = Symbol()
-const messageResolver = Symbol()
-const fieldNameResolver = Symbol()
 
 let $_rules = {}
 
@@ -34,7 +29,7 @@ export default class Validator {
     this.scopes = {}
   }
 
-  [discoveryScope](elm: HTMLElement) {
+  discoveryScope(elm: HTMLElement) {
     const scopeElms = elm.querySelectorAll('[data-vulidate-model]')
     const itSelf = elm.dataset.vulidateModel
     const isScopeFound = scopeElms.length || itSelf
@@ -63,15 +58,15 @@ export default class Validator {
    * Validate on scope
    */
   validate(mix) {
-    this[discoveryScope](this.vnode.$el)
+    this.discoveryScope(this.vnode.$el)
     switch (true) {
       case mix.target !== undefined:
         this.currentScope = this.getScope(mix.target)
-        return this.currentScope ? this[handler](this.scopes[this.currentScope]) : null
+        return this.currentScope ? this.handler(this.scopes[this.currentScope]) : null
 
       case typeof mix === 'string':
         this.currentScope = this.scopes.hasOwnProperty(mix) ? mix : null
-        return this.currentScope ? this[handler](this.scopes[this.currentScope]) : null
+        return this.currentScope ? this.handler(this.scopes[this.currentScope]) : null
 
       default:
         this.currentScope = null
@@ -111,19 +106,19 @@ export default class Validator {
     })
   }
 
-  [messageResolver](form, field, defaultMessage) {
+  messageResolver(form, field, defaultMessage) {
     return form.message && form.message.hasOwnProperty(field)
       ? form.message[field]
       : defaultMessage
   }
 
-  [fieldNameResolver](form, field) {
+  fieldNameResolver(form, field) {
     return form.nameDisplayed && form.nameDisplayed.hasOwnProperty(field)
       ? form.nameDisplayed[field]
       : field
   }
 
-  [handler](scope: Scope) {
+  handler(scope: Scope) {
     if (!scope.data || !scope.form.rules) {
       throw Error('Hello world')
     }
@@ -141,8 +136,8 @@ export default class Validator {
           rulesDefined.hasOwnProperty(r) &&
           !rulesDefined[r].validate(scope.data[field], ruleByField[r], scope.data)
         ) {
-          const ruleMessage = rulesDefined[r].message(this[fieldNameResolver](form, field))
-          const message = this[messageResolver](form, field, ruleMessage)
+          const ruleMessage = rulesDefined[r].message(this.fieldNameResolver(form, field))
+          const message = this.messageResolver(form, field, ruleMessage)
           this.errorBag.append(new Error(field, message, this.currentScope, r))
         }
       })
